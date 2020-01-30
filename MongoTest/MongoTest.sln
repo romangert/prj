@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoTest", "MongoTest\MongoTest.csproj", "{6BE03110-0D28-4B2F-AC13-3893AB372B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoTest", "MongoTest\MongoTest.csproj", "{6BE03110-0D28-4B2F-AC13-3893AB372B9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EFE9B3FC-81A6-4445-A319-87410AC4C645}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
