@@ -1,14 +1,34 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+ARG VERSION=2.2
+# ARG VERSION=3.1-alpine3.10
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:$VERSION AS base
 WORKDIR /app
 
-COPY ./MongoTest/MongoTest.csproj .
+FROM mcr.microsoft.com/dotnet/core/sdk:$VERSION AS build
+WORKDIR /src
+COPY ./MongoTest/MongoTest.csproj ./MongoTest/
 COPY ./NugetPackages ./NugetPackages
-RUN dotnet restore --source ./NugetPackages # http://malamdevnugetserver/nuget
+RUN dotnet restore ./MongoTest/MongoTest.csproj --source ./NugetPackages 
+# http://malamdevnugetserver/nuget
 COPY . .
-RUN dotnet publish ./MongoTest/MongoTest.csproj -c Debug -o /publish
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
-WORKDIR /publish
+#FROM build as publish
+RUN dotnet publish ./MongoTest/MongoTest.csproj -c Debug -o /app
+
+FROM base AS runtime
+RUN adduser \
+  --disabled-password \
+  --home /app \
+  --gecos '' app \
+  && chown -R app /app
+USER app
+
+WORKDIR /app
+ENV DOTNET_RUNNING_IN_CONTAINER=true \
+	ASPNETCORE_URLS=http://+:5000 \
+	ASPNETCORE_ENVIRONMENT=Development
 EXPOSE 5000
-COPY --from=build /publish .
+COPY --from=build /app .
 ENTRYPOINT [ "dotnet","MongoTest.dll" ]
+
+#docker run --env ASPNETCORE_ENVIRONMENT=Development --env ASPNETCORE_URLS=http://+:5000 -p 5000:5000 -t --rm -it mongo_app

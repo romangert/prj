@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  webapi:
+    image: mongo_app
+    container_name: webapi_mongo_debug
+    build:
+      args:
+        buildconfig: Debug
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - "5003:5000"
+    depends_on:
+      - mongodb
+    networks: 
+      - front
+  mongodb:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    networks: 
+      - front
+networks:
+  front:
+    driver: bridge
+    name: fronted
+  
