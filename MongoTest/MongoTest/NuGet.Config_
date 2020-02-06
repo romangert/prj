@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <config>
-    <add key="http_proxy" value="http://devproxy.ntdomain.educ.gov.il:8080/" />
+    <!--<add key="http_proxy" value="http://devproxy.ntdomain.educ.gov.il:8080/" />-->
     <add key="repositoryPath" value="NugetPackages" />
-    <add key="globalPackagesFolder" value="NugetPackages" />    
+    <add key="globalPackagesFolder" value="NugetPackages" />
   </config>
   <packageSources>
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />        

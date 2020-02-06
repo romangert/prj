@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="NuGet.Config_" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="NuGet.Config_" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     
     <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
