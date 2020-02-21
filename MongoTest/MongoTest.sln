@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoTest", "MongoTest\Mong
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EFE9B3FC-81A6-4445-A319-87410AC4C645}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
+		NuGet.Config = NuGet.Config
+		TextFile1.txt = TextFile1.txt
+		TextFile2.txt = TextFile2.txt
 	EndProjectSection
 EndProject
 Global

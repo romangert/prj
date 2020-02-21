@@ -23,7 +23,7 @@ namespace MongoTest.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return $"value sent is {id}";
         }
 
         // POST api/values

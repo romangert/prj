@@ -1,24 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ApplicationIcon />
-    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>    
     <StartupObject />
-  </PropertyGroup>
+  </PropertyGroup>  
 
-  <ItemGroup>
-    <None Remove="NuGet.Config_" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="NuGet.Config_" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    
+  <ItemGroup>    
     <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
   </ItemGroup>
 

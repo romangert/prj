@@ -142,7 +142,7 @@ namespace MongoTest.Controllers
 
         IMongoCollection<BsonDocument> GetDB()
         {
-            MongoClient dbClient = new MongoClient("mongodb://mongo_db:27017");
+            MongoClient dbClient = new MongoClient("mongodb://mongo_db_compose:27017");
 
             //Database List  
             //var dbList = dbClient.ListDatabases().ToList();
@@ -174,7 +174,7 @@ namespace MongoTest.Controllers
         {
             try
             {
-                MongoClient dbClient = new MongoClient("+://mongodb:27017");
+                MongoClient dbClient = new MongoClient("+://mongo_db_compose:27017");
 
                 //Database List  
                 var dbList = dbClient.ListDatabases().ToList();
