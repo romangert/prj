@@ -6136,23 +6136,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\prj\\mongotest\\NugetPackages": {},
+    "C:\\Roman\\prj\\MongoTest\\NugetPackages": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\prj\\mongotest\\MongoTest\\MongoTest.csproj",
+      "projectUniqueName": "C:\\Roman\\prj\\MongoTest\\MongoTest\\MongoTest.csproj",
       "projectName": "MongoTest",
-      "projectPath": "C:\\prj\\mongotest\\MongoTest\\MongoTest.csproj",
-      "packagesPath": "C:\\prj\\mongotest\\NugetPackages",
-      "outputPath": "C:\\prj\\mongotest\\MongoTest\\obj\\",
+      "projectPath": "C:\\Roman\\prj\\MongoTest\\MongoTest\\MongoTest.csproj",
+      "packagesPath": "C:\\Roman\\prj\\MongoTest\\NugetPackages",
+      "outputPath": "C:\\Roman\\prj\\MongoTest\\MongoTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\prj\\mongotest\\NuGet.Config",
+        "C:\\Roman\\prj\\MongoTest\\NuGet.Config",
         "C:\\Users\\kl1356\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6161,7 +6161,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\prj\\mongotest\\NugetPackages": {},
+        "C:\\Roman\\prj\\MongoTest\\NugetPackages": {},
         "\\\\ntdomain\\DFS\\Dev\\Kits\\dot.Net\\EduNugetPackages": {},
         "http://malamdevnugetserver/nuget": {},
         "https://api.nuget.org/v3/index.json": {}
