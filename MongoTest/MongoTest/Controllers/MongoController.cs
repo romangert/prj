@@ -142,7 +142,8 @@ namespace MongoTest.Controllers
 
         IMongoCollection<BsonDocument> GetDB()
         {
-            MongoClient dbClient = new MongoClient("mongodb://mongo_db:27017");
+            string ip = "localhost"; //"mongo_db"
+            MongoClient dbClient = new MongoClient($"mongodb://{ip}:27017");
 
             //Database List  
             //var dbList = dbClient.ListDatabases().ToList();
