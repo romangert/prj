@@ -2,7 +2,7 @@ version: "3.7"
 services:
   webapi:
     image: mongo_app
-    container_name: webapi_mongo_debug
+    container_name: webapi_mongo_compose
     build:
       args:
         buildconfig: Debug
@@ -19,7 +19,7 @@ services:
       - front
   mongodb:
     image: mongo:latest
-    container_name: mongo_db
+    container_name: mongo_db_compose
     ports:
       - "27017:27017"
     networks: 
