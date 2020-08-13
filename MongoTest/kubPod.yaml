@@ -1,0 +1,20 @@
+---
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: mongo-pod-site
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: front-end
+          image: test3:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+        - name: mongo-pod-db
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+...
+#kubectl create -f kubPod.yaml
