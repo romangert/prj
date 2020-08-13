@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  service0:
+    build: ./service0
+    ports:
+      - "9080:80"
+    volumes:
+      - C:/temp/Docker/logKubernetis/service0/logs:/app/logs
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development  
+  service1:
+    build: ./service1
+    ports:
+      - "9081:80"
+    volumes:
+      - C:/temp/Docker/logKubernetis/service1/logs:/app/logs
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+  
