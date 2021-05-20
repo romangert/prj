@@ -7,7 +7,9 @@ services:
     volumes:
       - C:/temp/Docker/logKubernetis/service0/logs:/app/logs
     environment:
-      ASPNETCORE_ENVIRONMENT: Development  
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      fronted:
   service1:
     build: ./service1
     ports:
@@ -16,4 +18,8 @@ services:
       - C:/temp/Docker/logKubernetis/service1/logs:/app/logs
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-  
+    networks:
+      fronted:
+networks:
+  fronted:  
+    driver: bridge
