@@ -22,7 +22,7 @@ namespace GrpcGreeter
                 Message = "Hello " + request.Name
             });
         }
-
+        
         /*
          services
     .AddGrpcClient<Greeter.GreeterClient>(o =>
