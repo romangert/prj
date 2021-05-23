@@ -15,13 +15,13 @@ namespace GrpcGreeter
             var handler = new JwtSecurityTokenHandler();
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = false,
                 ValidIssuer = "your string",
                 ValidAudience = "your string",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secrete code"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw=="))
             };
 
             var claimsPrincipal = handler.ValidateToken(securityToken, tokenValidationParameters, out validatedToken);

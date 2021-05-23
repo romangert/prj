@@ -29,7 +29,6 @@ namespace DI_Test
 
 
             var logger = serviceProvider.GetService<ILoggerFactory>()
-                //.AddProvider(new ConsoleLoggerProvider((_, __) => true, true))
                 .CreateLogger<Program>();
 
             logger.LogInformation("Example log message");

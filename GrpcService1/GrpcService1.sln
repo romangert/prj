@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcGreeter", "GrpcGreeter\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcClient", "GrpcClient\GrpcClient.csproj", "{3DF560DD-6CF6-4BA0-8E6F-C2D8E6E81678}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protos", "Protos\Protos.csproj", "{5B2FA99F-62A7-4790-9A92-69A0265AEB7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protos", "Protos\Protos.csproj", "{5B2FA99F-62A7-4790-9A92-69A0265AEB7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DI_Test", "DI_Test\DI_Test.csproj", "{CEC11BAB-EC2E-4F43-A745-F26B9652B413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DI_Test", "DI_Test\DI_Test.csproj", "{CEC11BAB-EC2E-4F43-A745-F26B9652B413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{62549353-DB3B-45C4-9E28-71F24A8EDD74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CEC11BAB-EC2E-4F43-A745-F26B9652B413}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC11BAB-EC2E-4F43-A745-F26B9652B413}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC11BAB-EC2E-4F43-A745-F26B9652B413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62549353-DB3B-45C4-9E28-71F24A8EDD74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62549353-DB3B-45C4-9E28-71F24A8EDD74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62549353-DB3B-45C4-9E28-71F24A8EDD74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62549353-DB3B-45C4-9E28-71F24A8EDD74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

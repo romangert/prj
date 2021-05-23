@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GrpcGreeter
@@ -19,11 +23,12 @@ namespace GrpcGreeter
         {
             services.AddGrpc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o => {
+                .AddJwtBearer(options =>
+                {
                     var validator = new JwtTokenValidator();
-                    o.SecurityTokenValidators.Add(validator);
+                    options.SecurityTokenValidators.Add(validator);
                 });
-            services.AddAuthorization();
+            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,20 +40,37 @@ namespace GrpcGreeter
             }
 
             app.UseRouting();
-/////////////////////////
-            //app.UseAuthentication();
+            ///////////////////////////////
+            app.UseAuthentication();
             //app.UseAuthorization();
             /////////////////////////////////
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<GreeterService>();
-
-                endpoints.MapGet("/", async context =>
+                
+                endpoints.MapGet("/generateJwtToken", context =>
                 {
-                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                    //return context.Response.WriteAsync("qqqqqqqqqqqqqqq");
+                    return context.Response.WriteAsync(GenerateJwtToken(context.Request.Query["name"]));
                 });
             });
         }
+
+        private string GenerateJwtToken(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new InvalidOperationException("Name is not specified.");
+            }
+
+            var claims = new[] { new Claim(ClaimTypes.Name, name) };
+            var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken("ExampleServer", "ExampleClients", claims, expires: DateTime.Now.AddSeconds(60), signingCredentials: credentials);
+            return JwtTokenHandler.WriteToken(token);
+        }
+
+        private readonly JwtSecurityTokenHandler JwtTokenHandler = new JwtSecurityTokenHandler();
+        private readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw=="));
     }
 }
