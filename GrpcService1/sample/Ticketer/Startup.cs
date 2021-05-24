@@ -1,4 +1,6 @@
-﻿using GrpcFiles;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,15 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using Ticketer.Services;
 
-namespace GrpcGreeter
+namespace Ticketer
 {
     public class Startup
     {
@@ -22,18 +18,30 @@ namespace GrpcGreeter
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc(options => {
-                options.EnableDetailedErrors = true;
-                options.MaxReceiveMessageSize = 10 * 1024 * 1024; // 5 MB
-                options.MaxSendMessageSize = 10 * 1024 * 1024; // 5 MB
+            services.AddGrpc();
+            services.AddSingleton<TicketRepository>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireClaim(ClaimTypes.Name);
+                });
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    var validator = new JwtTokenValidator();
-                    options.SecurityTokenValidators.Add(validator);
+                    options.TokenValidationParameters =
+                        new TokenValidationParameters
+                        {
+                            ValidateAudience = false,
+                            ValidateIssuer = false,
+                            ValidateActor = false,
+                            ValidateLifetime = true,
+                            IssuerSigningKey = SecurityKey
+                        };
                 });
-            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,19 +53,18 @@ namespace GrpcGreeter
             }
 
             app.UseRouting();
-            ///////////////////////////////
+
             app.UseAuthentication();
             app.UseAuthorization();
-            /////////////////////////////////
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
-                endpoints.MapGrpcService<FilesService>();
+                // Communication with gRPC endpoints must be made through a gRPC client.
+                // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
+                endpoints.MapGrpcService<TicketerService>();
 
                 endpoints.MapGet("/generateJwtToken", context =>
                 {
-                    //return context.Response.WriteAsync("qqqqqqqqqqqqqqq");
                     return context.Response.WriteAsync(GenerateJwtToken(context.Request.Query["name"]));
                 });
             });
@@ -77,6 +84,6 @@ namespace GrpcGreeter
         }
 
         private readonly JwtSecurityTokenHandler JwtTokenHandler = new JwtSecurityTokenHandler();
-        private readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw=="));
+        private readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Guid.NewGuid().ToByteArray());
     }
 }

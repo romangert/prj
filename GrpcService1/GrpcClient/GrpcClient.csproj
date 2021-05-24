@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\files.proto" />
     <None Remove="Protos\greet.proto" />
   </ItemGroup>
 
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\files.proto" GrpcServices="Bouth" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Bouth" />
   </ItemGroup>
 

@@ -1,0 +1,21 @@
+	syntax = "proto3";
+
+option csharp_namespace = "GrpcFiles";
+
+package files;
+
+// The greeting service definition.
+service Files {
+  // Sends a greeting  
+  rpc GetFileStream(FileRequest) returns (stream FileResponse);
+}
+
+// The request message containing the user's name.
+message FileRequest {
+  string FileName = 1;
+}
+
+// The response message containing the greetings.
+message FileResponse {
+  string Base64 = 1;
+}

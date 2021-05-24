@@ -1,8 +1,10 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using GrpcFiles;
 using GrpcGreeter;
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -24,9 +26,10 @@ namespace GrpcClient
             Console.WriteLine();
             Console.WriteLine("Press a key:");
             Console.WriteLine("1: InvorkeGrpcByInterseptor");
-            Console.WriteLine("2: Purchase ticket");
+            Console.WriteLine("2: InvorkeGrpcServerStream");
             Console.WriteLine("3: Authenticate");
-            Console.WriteLine("4: Exit");
+            Console.WriteLine("4: GetFile");
+            Console.WriteLine("5: Exit");
             Console.WriteLine();
 
             bool exiting = false;
@@ -39,18 +42,69 @@ namespace GrpcClient
                         await InvorkeGrpcByInterseptor(channel);
                         break;
                     case '2':
-                        //await InvorkeGrpcByInterseptor(addressHttps);
+                        await InvorkeGrpcServerStream(channel);
                         break;
                     case '3':
                         _token = await Authenticate(addressHttps);
                         break;
                     case '4':
+                        await GetFile(channel);
+                        break;
+                    case '5':
                         exiting = true;
                         break;
                 }
             }
 
             Console.WriteLine("Exiting");
+        }
+
+        static async Task GetFile(GrpcChannel channel)
+        {
+            // The port number(5001) must match the port of the gRPC server.
+            var client = new Files.FilesClient(channel);
+
+            var cts = new CancellationTokenSource(TimeSpan.FromDays(2));
+            var request = new FileRequest { FileName = @"C:\TfsEduCore\install\dotnet-sdk-5.0.100-win-x64.exe" };
+            using AsyncServerStreamingCall<FileResponse> streamingCall =
+                client.GetFileStream(request, cancellationToken: cts.Token);
+            try
+            {
+                await foreach (FileResponse responseOnePart in streamingCall.ResponseStream.ReadAllAsync(cancellationToken: cts.Token))
+                {
+                    Console.WriteLine(responseOnePart.Base64);
+                    //Console.WriteLine($"{response.DateTimeStamp.ToDateTime():s} | {response.Summary} | {response.TemperatureC} C");
+                }
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                Console.WriteLine("Stream cancelled.");
+            }
+
+        }
+
+        static async Task InvorkeGrpcServerStream(GrpcChannel channel)
+        {            
+            // The port number(5001) must match the port of the gRPC server.
+            var client = new Greeter.GreeterClient(channel);
+
+            var cts = new CancellationTokenSource(TimeSpan.FromDays(2));
+            var request = new HelloRequest { Name = "Hello stream server" };
+            using AsyncServerStreamingCall<HelloReply> streamingCall = 
+                client.SayHelloServerStream(request, cancellationToken: cts.Token);
+            try
+            {
+                await foreach (HelloReply response in streamingCall.ResponseStream.ReadAllAsync(cancellationToken: cts.Token))
+                {
+                    Console.WriteLine(response.Message);
+                    //Console.WriteLine($"{response.DateTimeStamp.ToDateTime():s} | {response.Summary} | {response.TemperatureC} C");
+                }
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
+            {
+                Console.WriteLine("Stream cancelled.");
+            }
+
         }
 
         static async Task InvorkeGrpc(string address)
@@ -66,7 +120,6 @@ namespace GrpcClient
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
-
 
         static async Task InvorkeGrpcByInterseptor(GrpcChannel channel)
         {
@@ -97,7 +150,9 @@ namespace GrpcClient
             // CallCredentials can't be used with ChannelCredentials.Insecure on non-TLS channels.
             var channel = GrpcChannel.ForAddress(address, new GrpcChannelOptions
             {
-                Credentials = ChannelCredentials.Create(new SslCredentials(), credentials)
+                Credentials = ChannelCredentials.Create(new SslCredentials(), credentials),
+                MaxReceiveMessageSize = 10 * 1024 * 1024, // 5 MB
+                MaxSendMessageSize = 10 * 1024 * 1024 // 5 MB
             });
             return channel;
         }

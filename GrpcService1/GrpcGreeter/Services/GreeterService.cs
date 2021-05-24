@@ -22,26 +22,28 @@ namespace GrpcGreeter
                 Message = "Hello " + request.Name
             });
         }
-        
-        /*
-         services
-    .AddGrpcClient<Greeter.GreeterClient>(o =>
-    {
-        o.Address = new Uri("https://localhost:5001");
-    })
-    .ConfigureChannel(o =>
-    {
-        var credentials = CallCredentials.FromInterceptor((context, metadata) =>
-        {
-            if (!string.IsNullOrEmpty(_token))
-            {
-                metadata.Add("Authorization", $"Bearer {_token}");
-            }
-            return Task.CompletedTask;
-        });
 
-        o.Credentials = ChannelCredentials.Create(new SslCredentials(), credentials);
-    });
-         */
+        public override async Task SayHelloServerStream(
+            HelloRequest request, 
+            IServerStreamWriter<HelloReply> responseStream, 
+            ServerCallContext context)
+        {            
+            double i = 0;
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(500); // Gotta look busy
+                
+                HelloReply forecast = new HelloReply
+                {
+                    Message = "Hello " + request.Name + 
+                        " Date: " + DateTime.Now +
+                        " Response No: " + i++                    
+                };
+
+                _logger.LogInformation("Sending WeatherData response");
+
+                await responseStream.WriteAsync(forecast);
+            }         
+        }
     }
 }
