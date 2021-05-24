@@ -16,7 +16,7 @@ namespace GrpcClient
         {
             string addressHttps = "https://localhost:5001";
             //string addressHttp = "http://localhost:5000";
-
+            using var channel = CreateAuthenticatedChannel(addressHttps);
             //await InvorkeGrpc(address);
             //await InvorkeGrpcByInterseptor(address);
 
@@ -36,7 +36,7 @@ namespace GrpcClient
                 switch (consoleKeyInfo.KeyChar)
                 {
                     case '1':
-                        await InvorkeGrpcByInterseptor(addressHttps);
+                        await InvorkeGrpcByInterseptor(channel);
                         break;
                     case '2':
                         //await InvorkeGrpcByInterseptor(addressHttps);
@@ -68,10 +68,10 @@ namespace GrpcClient
         }
 
 
-        static async Task InvorkeGrpcByInterseptor(string address)
+        static async Task InvorkeGrpcByInterseptor(GrpcChannel channel)
         {
             // The port number(5001) must match the port of the gRPC server.            
-            using var channel = CreateAuthenticatedChannel(address);
+            //using var channel = CreateAuthenticatedChannel(address);
             var client = new Greeter.GreeterClient(channel);
             var request = new HelloRequest { Name = "GreeterClient" };
             //var reply = await client.SayHelloAsync(request, headers);
